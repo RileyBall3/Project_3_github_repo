@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <queue>
 #include <chrono>
 using namespace std;
 
@@ -28,6 +29,7 @@ private:
 public:
     AVLTree() : root(nullptr) {}
     AVLTree(Product* temp) : root(temp) {}
+    void MakeTree(vector<Product*> products);
     Product* GetRoot();
     void SetRoot(Product* temp);
     int Height(Product* root);
@@ -169,7 +171,28 @@ Product* AVLTree::InsertAndBalance(Product* root, Product* product) { //Called t
     return root;
 }
 
-AVLTree* ReadCSV(string filename, AVLTree* tree) {
+void AVLTree::MakeTree(vector<Product*> products) {
+    for (int i = 0; i < products.size(); i++) {
+        root = InsertAndBalance(root, products[i]);
+    }
+}
+
+struct timecompare {
+    int operator()(Product* product1, Product* product2) {
+        return product1->time > product2->time;
+    }
+};
+
+class MinHeap {
+private:
+    priority_queue<Product, vector<Product>, timecompare> pq;
+public:
+    priority_queue<Product, vector<Product>, timecompare> GetPQ() { return pq; }
+    void SetPQ(priority_queue<Product, vector<Product>, timecompare> newpq) { pq = newpq; }
+};
+
+vector<Product*> ReadCSV(string filename) {
+    vector<Product*> tempvec;
     ifstream filestream(filename);
     string filestring = "";
     getline(filestream, filestring);
@@ -239,10 +262,10 @@ AVLTree* ReadCSV(string filename, AVLTree* tree) {
         getline(linestream, txt, ',');
         newProduct->text = txt;
 
-        tree->SetRoot(tree->InsertAndBalance(tree->GetRoot(), newProduct));
+        tempvec.push_back(newProduct);
     }
     filestream.close();
-    return tree;
+    return tempvec;
 }
 
 void PrintInOrder(Product* root) {
@@ -257,10 +280,12 @@ void PrintInOrder(Product* root) {
 int main()
 {
     AVLTree* myTree = new AVLTree();
-    auto time1 = chrono::high_resolution_clock::now();
-    myTree = ReadCSV("Data/Reviews.csv", myTree);
-    auto time2 = chrono::high_resolution_clock::now();
-    cout time1 << " " << time2 << endl;
-    //PrintInOrder(myTree->GetRoot());
+    MinHeap* myHeap = new MinHeap();
+    vector<Product*> products;
+    products = ReadCSV("C:/Users/rball/Data_Struct_Projects/Data/Reviews.csv");
+    //cout << products[0]->productID;
+    cout << "yes";
+    myTree->MakeTree(products);
+    PrintInOrder(myTree->GetRoot());
     return 0;
 }
