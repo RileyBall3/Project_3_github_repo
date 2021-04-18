@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 class Product {						//make sure the types match up. so ids are strings and scores are ints, etc.
@@ -256,9 +257,10 @@ void PrintInOrder(Product* root) {
 int main()
 {
     AVLTree* myTree = new AVLTree();
+    auto time1 = chrono::high_resolution_clock::now();
     myTree = ReadCSV("Data/Reviews.csv", myTree);
-    /*cout << myTree->GetRoot()->ID << endl;
-    cout << myTree->Height(myTree->GetRoot()->left);*/
-    PrintInOrder(myTree->GetRoot());
+    auto time2 = chrono::high_resolution_clock::now();
+    cout time1 << " " << time2 << endl;
+    //PrintInOrder(myTree->GetRoot());
     return 0;
 }
