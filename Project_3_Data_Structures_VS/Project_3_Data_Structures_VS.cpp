@@ -247,13 +247,13 @@ vector<Product*> ReadCSV(string filename) {
     ifstream filestream(filename);
     string filestring = "";
     getline(filestream, filestring);
-    int i = 0;                                                              //for testing purposes
+    //int i = 0;                                                              //for testing purposes
 
     while (filestream) {
-        if (i == 20) {
+        /*if (i == 20) {
             break;
         }
-        i++;
+        i++;*/
 
         getline(filestream, filestring);
         stringstream linestream(filestring);
@@ -799,6 +799,10 @@ int main()
             cout << "See you later!" << endl;
             break;
         }
+        if (option > 5 || option < 0) {
+            cout << "Invalid option" << endl;
+            continue;
+        }
         else {
             cout << "What is the ID of the product? ";
         }
@@ -945,7 +949,7 @@ int main()
             cin >> num;
             cout << endl;
 
-            cout << "Using a tree, the ratings for this product are: " << endl;                           //This might not work for a tree, since it would take too long for the tree to search
+            cout << "Using a tree, the ratings for this product are: " << endl;                           
             time1 = chrono::system_clock::now();
             ReviewsTree(myTree, productname, 1, num);
             time2 = chrono::system_clock::now();
