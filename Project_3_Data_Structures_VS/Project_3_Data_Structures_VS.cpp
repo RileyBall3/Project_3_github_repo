@@ -247,13 +247,13 @@ vector<Product*> ReadCSV(string filename) {
     ifstream filestream(filename);
     string filestring = "";
     getline(filestream, filestring);
-    //int i = 0;                                                              //for testing purposes
+    int i = 0;                                                              //for testing purposes
 
-    while (filestream) {
-        /*if (i == 20) {
+    while (filestream) { 
+        if (i == 100) {
             break;
         }
-        i++;*/
+        i++;
 
         getline(filestream, filestring);
         stringstream linestream(filestring);
